@@ -1,0 +1,15 @@
+services:
+  - type: worker
+    name: discord-task-bot
+    env: python
+    buildCommand: pip install -r render_requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: DISCORD_BOT_TOKEN
+        sync: false
+      - key: REMINDER_HOUR
+        value: "9"
+      - key: REMINDER_MINUTE  
+        value: "0"
+      - key: OVERDUE_CLEANUP_DAYS
+        value: "30"
