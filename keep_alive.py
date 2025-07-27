@@ -24,9 +24,10 @@ def status():
 
 def run():
     # Use lighter configuration for Replit
+    port = int(os.environ.get('PORT', 8080))
     app.run(
         host='0.0.0.0', 
-        port=8080, 
+        port=port, 
         debug=False,
         use_reloader=False,
         threaded=True
@@ -34,10 +35,11 @@ def run():
 
 def keep_alive():
     """Start the keep-alive web server in a separate thread"""
+    port = int(os.environ.get('PORT', 8080))
     t = Thread(target=run)
     t.daemon = True
     t.start()
-    print("🌐 Keep-alive server started on port 8080")
+    print(f"🌐 Keep-alive server started on port {port}")
 
 # WSGI application for Gunicorn
 application = app
