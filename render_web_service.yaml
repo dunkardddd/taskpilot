@@ -4,6 +4,3 @@ services:
     env: python
     buildCommand: pip install -r render_requirements.txt && pip install gunicorn
     startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 0 keep_alive:application & python main.py
-    envVars:
-      - key: PORT
-        value: 8080
