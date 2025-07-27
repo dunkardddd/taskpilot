@@ -6,8 +6,7 @@ import os
 from task_manager import TaskManager
 from reminder_scheduler import ReminderScheduler
 from config import Config
-# Remove keep_alive for Render deployment (not needed for background workers)
-# from keep_alive import keep_alive
+from keep_alive import keep_alive
 
 # Bot setup with intents
 intents = discord.Intents.default()
@@ -373,8 +372,26 @@ if __name__ == "__main__":
         print("Please set your Discord bot token in the environment variables.")
         exit(1)
     
-    # Keep-alive not needed for Render background workers
-    # keep_alive()
+    # For Replit development - start keep-alive server
+    keep_alive()
+    
+    # Give Flask server time to start
+    import time
+    time.sleep(2)
+    
+    try:
+        bot.run(token)
+    except discord.LoginFailure:
+        print("❌ Invalid Discord bot token!")
+    except Exception as e:
+        print(f"❌ Error running bot: {str(e)}")
+
+def setup_and_run_bot():
+    """Setup and run the Discord bot - called from app.py for Render deployment"""
+    token = os.getenv('DISCORD_BOT_TOKEN')
+    if not token:
+        print("❌ DISCORD_BOT_TOKEN environment variable not found!")
+        return
     
     try:
         bot.run(token)
